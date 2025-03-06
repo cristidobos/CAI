@@ -1,2 +1,4 @@
-name;competence;willingness
-dlnkasd;0.5;0.5
+name;task;competence;willingness
+name;rescue;0.0;0.0
+name;search;0.0;0.0
+name;remove;0.0;0.0
