@@ -1,4 +1,4 @@
 name;task;competence;willingness
-name;rescue;0.0;0.0
-name;search;0.0;0.0
-name;remove;0.0;0.0
+agent;rescue;0.0;0.0
+agent;search;1;0.0
+agent;remove;0.0;0.0
