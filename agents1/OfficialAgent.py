@@ -130,6 +130,10 @@ class BaselineAgent(ArtificialBrain):
     def _decide_with_trust(self, task):
         """
             Applies a logistic transform to the trust values to better represent trust, and makes a final decision based on that value.
+
+            ALWAYS-TRUST: Return True
+            NEVER-TRUST: Return False
+            RANDOM-TRUST: Choose random number in [0, 1], if > 0.5 return True
         """
 
         confidence = self.map_interactions_to_confidence()
@@ -313,12 +317,6 @@ class BaselineAgent(ArtificialBrain):
                     self.received_messages_content = []
                     self._send_message('Going to re-search all areas.', 'RescueBot')
                     self._phase = Phase.FIND_NEXT_GOAL
-                    # READHERE
-                    # NEW IMPLEMENTATION
-                    # If all areas have been searched this means human lied about rescuing a victim.
-                    trustBeliefs[self._human_name]['search']['willingness'] -= self.WEIGHT_HUMAN_LIED_ABOUT_RESCUE_VICTIM
-                    trustBeliefs[self._human_name]['search']['competence'] -= self.WEIGHT_HUMAN_LIED_ABOUT_RESCUE_VICTIM
-                    self._trustBelief(self._team_members, trustBeliefs, self._folder, self._received_messages)
                 # If there are still areas to search, define which one to search next
                 else:
                     # Identify the closest door when the agent did not search any areas yet
@@ -661,6 +659,8 @@ class BaselineAgent(ArtificialBrain):
                     # This means human lied about searching the room
                     if self._door['room_name'] in self._rooms_searched_by_human:
                         trustBeliefs[self._human_name]['search']['competence'] -= self.WEIGHT_HUMAN_LIED_ABOUT_SEARCHING_AREA
+                        trustBeliefs[self._human_name]['search'][
+                            'willingness'] -= self.WEIGHT_HUMAN_LIED_ABOUT_SEARCHING_AREA
                         self._trustBelief(self._team_members, trustBeliefs, self._folder,
                                           self._received_messages)
                         self._interactions += 1
@@ -851,6 +851,8 @@ class BaselineAgent(ArtificialBrain):
                     # NEW IMPLEMENTATION
                     # Decrease trust since human incorrectly communicated the victim's location
                     trustBeliefs[self._human_name]['search']['competence'] -= self.WEIGHT_HUMAN_INCORRECTLY_COMMUNICATES_VICTIM_LOCATION
+                    trustBeliefs[self._human_name]['search'][
+                        'willingness'] -= self.WEIGHT_HUMAN_INCORRECTLY_COMMUNICATES_VICTIM_LOCATION
                     self._trustBelief(self._team_members, trustBeliefs, self._folder, self._received_messages)
                     self._interactions += 1
 
