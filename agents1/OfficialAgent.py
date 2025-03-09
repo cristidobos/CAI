@@ -1322,7 +1322,7 @@ class BaselineAgent(ArtificialBrain):
                     csv_writer.writerow([name, task, allBeliefs[name][task]['competence'], allBeliefs[name][task]['willingness']])
 
         all_interactions = {}
-        with open(folder + 'beliefs/interactions.csv') as csvfile:
+        with open(folder + '/beliefs/interactions.csv') as csvfile:
             reader = csv.reader(csvfile, delimiter=';', quotechar="'")
             header = next(reader)
             for row in reader:
